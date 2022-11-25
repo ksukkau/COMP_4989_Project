@@ -31,7 +31,6 @@ tbCallBack = TensorBoard(log_dir="logs",
 # reduces learning rate when a metric stops improving
 reduceLRO = ReduceLROnPlateau(verbose=1)
 
-
 # ModelCheckpoint creates models inside given directory
 modelCheckpoint = ModelCheckpoint(
     'chkp/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
@@ -71,7 +70,8 @@ valid = train.get_validation_generator()
 
 keras_video.utils.show_sample(train)
 
-
+# This model does feature detection and uses GlobalMaxPool2D which reduces
+# the number of outputs getting only maximum values from the last convolution
 def build_convnet(shape=(112, 112, 3)):
     momentum = .9
     model = keras.Sequential()
@@ -103,6 +103,9 @@ def build_convnet(shape=(112, 112, 3)):
     return model
 
 
+# This is the time distributed model where we add the dimension of 5 frames,
+# the time distributed layer gets 5 images of size 112x112 with 3 channels (RGB)
+# action_model calls build_convnet and adds that to the time distributed model
 def action_model(shape=(5, 112, 112, 3), nbout=3):
     # Create our convnet with (112, 112, 3) input shape
     convnet = build_convnet(shape[1:])
@@ -128,6 +131,7 @@ def action_model(shape=(5, 112, 112, 3), nbout=3):
 INSHAPE = (NBFRAME,) + SIZE + (CHANNELS,)  # (5, 112, 112, 3)
 model = action_model(INSHAPE, len(classes))
 optimizer = keras.optimizers.Adam(0.001)
+
 model.compile(
     optimizer,
     'categorical_crossentropy',
@@ -142,10 +146,17 @@ callbacks = [
     # earlystop,
     tbCallBack
 ]
-model.fit_generator(
+
+# assigning to history saves a record of the values
+history = model.fit(
     train,
     validation_data=valid,
     verbose=1,
     epochs=EPOCHS,
     callbacks=callbacks
 )
+
+# prints metric values
+print(history.history)
+
+model.save('saved_models/convnet_1.h5')
