@@ -2,6 +2,7 @@ import os
 import glob
 import keras
 import keras_video.utils
+from tensorflow import keras
 # to use VideoFrameGenerator you must edit imports in the generator.py file, or it will not work
 # env/Lib/site-packages/keras_video/generator.py
 # from keras.preprocessing.image import ImageDataGenerator
@@ -10,6 +11,31 @@ from keras_video import VideoFrameGenerator
 from keras.layers import Conv2D, BatchNormalization, \
     MaxPool2D, GlobalMaxPool2D
 from keras.layers import TimeDistributed, GRU, Dense, Dropout
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
+
+# Stops model if there is no change to val_loss after 3 epochs, keeps the west weights
+# Seems to stop too early
+earlystop = EarlyStopping(monitor='val_loss',
+                          min_delta=0,
+                          patience=3,
+                          verbose=1,
+                          restore_best_weights=True)
+
+# creates tensorboard visualizations to view results
+# to view run in terminal: tensorboard --logdir=logs
+tbCallBack = TensorBoard(log_dir="logs",
+                         histogram_freq=0,
+                         write_graph=True,
+                         write_images=False)
+
+# reduces learning rate when a metric stops improving
+reduceLRO = ReduceLROnPlateau(verbose=1)
+
+
+# ModelCheckpoint creates models inside given directory
+modelCheckpoint = ModelCheckpoint(
+    'chkp/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
+    verbose=1),
 
 # use sub directories names as classes
 classes = [i.split(os.path.sep)[1] for i in glob.glob('videos/*')]
@@ -99,23 +125,22 @@ def action_model(shape=(5, 112, 112, 3), nbout=3):
     return model
 
 
-INSHAPE=(NBFRAME,) + SIZE + (CHANNELS,) # (5, 112, 112, 3)
+INSHAPE = (NBFRAME,) + SIZE + (CHANNELS,)  # (5, 112, 112, 3)
 model = action_model(INSHAPE, len(classes))
 optimizer = keras.optimizers.Adam(0.001)
 model.compile(
     optimizer,
     'categorical_crossentropy',
     metrics=['acc']
-    )
+)
 
-EPOCHS=50
-# create a "chkp" directory before to run that
-# because ModelCheckpoint will write models inside
+EPOCHS = 50
+
 callbacks = [
-    keras.callbacks.ReduceLROnPlateau(verbose=1),
-    keras.callbacks.ModelCheckpoint(
-        'chkp/weights.{epoch:02d}-{val_loss:.2f}.txt',
-        verbose=1),
+    modelCheckpoint,
+    reduceLRO,
+    # earlystop,
+    tbCallBack
 ]
 model.fit_generator(
     train,
