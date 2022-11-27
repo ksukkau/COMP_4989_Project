@@ -2,7 +2,7 @@ import os
 import glob
 import keras_video.utils
 from tensorflow import keras
-from keras_video import VideoFrameGenerator
+from keras_video import VideoFrameGenerator, SlidingFrameGenerator
 
 # TODO process test data without adding class tags
 # use sub-directories names as classes
@@ -24,7 +24,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator
-test = VideoFrameGenerator(
+test = SlidingFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,

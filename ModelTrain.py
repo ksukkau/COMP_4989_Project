@@ -12,7 +12,7 @@ from tensorflow import keras
 # env/Lib/site-packages/keras_video/generator.py
 # from keras.preprocessing.image import ImageDataGenerator
 # from keras.utils import img_to_array
-from keras_video import VideoFrameGenerator
+from keras_video import VideoFrameGenerator, SlidingFrameGenerator
 from keras.layers import Conv2D, BatchNormalization, \
     MaxPool2D, GlobalMaxPool2D
 from keras.layers import TimeDistributed, GRU, Dense, Dropout
@@ -59,7 +59,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator
-train = VideoFrameGenerator(
+train = SlidingFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,
@@ -74,6 +74,7 @@ train = VideoFrameGenerator(
 valid = train.get_validation_generator()
 
 keras_video.utils.show_sample(train)
+
 
 # This model does feature detection and uses GlobalMaxPool2D which reduces
 # the number of outputs getting only maximum values from the last convolution
@@ -165,4 +166,4 @@ history = model.fit(
 # prints metric values
 # print(history.history)
 
-model.save('saved_models/convnet_1.h5')
+model.save('saved_models/convnet_sliding.h5')
