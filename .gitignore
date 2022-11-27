@@ -133,3 +133,6 @@ dmypy.json
 .cn_chkp/
 .mn_logs/
 .cn_logs/
+
+
+.idea/
