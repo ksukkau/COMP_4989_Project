@@ -4,7 +4,7 @@ import keras_video.utils
 from tensorflow import keras
 from keras_video import VideoFrameGenerator
 
-
+# TODO process test data without adding class tags
 # use sub-directories names as classes
 # there won't be any classes in actual prediction data
 classes = [i.split(os.path.sep)[1] for i in glob.glob('videos/*')]
@@ -40,6 +40,10 @@ test = VideoFrameGenerator(
 
 model = keras.models.load_model('saved_models/covnet_1.h5')
 
+print("Evaluate on test data")
+results = model.evaluate(test)
+print("test loss, test acc:", results)
+
 print("Generate predictions")
 predictions = model.predict(test)
 # the prediction gives a row for each sample and the likely-hood of it being each of the 24 classes.
@@ -48,6 +52,7 @@ print("predictions shape:", predictions.shape)
 print(predictions[1])
 print(predictions[2])
 
+# TODO display images to verify correctness?
 for prediction in predictions:
     predicted_class = ''
     max_val = 0
