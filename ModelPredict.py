@@ -24,7 +24,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator
-test = SlidingFrameGenerator(
+test = VideoFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,
@@ -38,7 +38,7 @@ test = SlidingFrameGenerator(
 # Showing a sample shows some of the generated frame it is not required
 # keras_video.utils.show_sample(train)
 
-model = keras.models.load_model('saved_models/covnet_1.h5')
+model = keras.models.load_model('saved_models/convnet_sliding.h5')
 
 print("Evaluate on test data")
 results = model.evaluate(test)
