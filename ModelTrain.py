@@ -1,3 +1,8 @@
+"""
+Sources:
+https://medium.com/smileinnovation/training-neural-network-with-image-sequence-an-example-with-video-as-input-c3407f7a0b0f
+https://medium.com/iitg-ai/how-to-use-callbacks-in-keras-to-visualize-monitor-and-improve-your-deep-learning-model-c9ca37901b28
+"""
 import os
 import glob
 from tensorflow import keras
@@ -7,7 +12,7 @@ import keras_video.utils
 # env/Lib/site-packages/keras_video/generator.py
 # from keras.preprocessing.image import ImageDataGenerator
 # from keras.utils import img_to_array
-from keras_video import VideoFrameGenerator
+from keras_video import VideoFrameGenerator, SlidingFrameGenerator
 from keras.layers import Conv2D, BatchNormalization, \
     MaxPool2D, GlobalMaxPool2D
 from keras.layers import TimeDistributed, GRU, Dense, Dropout
@@ -54,7 +59,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator
-train = VideoFrameGenerator(
+train = SlidingFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,
@@ -70,8 +75,10 @@ valid = train.get_validation_generator()
 
 keras_video.utils.show_sample(train)
 
+
 # This model does feature detection and uses GlobalMaxPool2D which reduces
 # the number of outputs getting only maximum values from the last convolution
+# convnet == CNN
 def build_convnet(shape=(112, 112, 3)):
     momentum = .9
     model = keras.Sequential()
@@ -157,6 +164,6 @@ history = model.fit(
 )
 
 # prints metric values
-print(history.history)
+# print(history.history)
 
-model.save('saved_models/convnet_1.h5')
+model.save('saved_models/convnet_sliding.h5')
