@@ -1,3 +1,8 @@
+"""
+Sources:
+https://medium.com/smileinnovation/training-neural-network-with-image-sequence-an-example-with-video-as-input-c3407f7a0b0f
+https://medium.com/iitg-ai/how-to-use-callbacks-in-keras-to-visualize-monitor-and-improve-your-deep-learning-model-c9ca37901b28
+"""
 import os
 import glob
 import keras
@@ -72,6 +77,7 @@ keras_video.utils.show_sample(train)
 
 # This model does feature detection and uses GlobalMaxPool2D which reduces
 # the number of outputs getting only maximum values from the last convolution
+# convnet == CNN
 def build_convnet(shape=(112, 112, 3)):
     momentum = .9
     model = keras.Sequential()
@@ -157,6 +163,6 @@ history = model.fit(
 )
 
 # prints metric values
-print(history.history)
+# print(history.history)
 
 model.save('saved_models/convnet_1.h5')
