@@ -1,8 +1,8 @@
 import os
 import glob
+from tensorflow import keras
 import keras
 import keras_video.utils
-from tensorflow import keras
 # to use VideoFrameGenerator you must edit imports in the generator.py file, or it will not work
 # env/Lib/site-packages/keras_video/generator.py
 # from keras.preprocessing.image import ImageDataGenerator

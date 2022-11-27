@@ -38,7 +38,7 @@ test = VideoFrameGenerator(
 # Showing a sample shows some of the generated frame it is not required
 # keras_video.utils.show_sample(train)
 
-model = keras.models.load_model('saved_models/covnet_1.h5')
+model = keras.models.load_model("saved_models/convnet_1.h5")
 
 print("Generate predictions")
 predictions = model.predict(test)

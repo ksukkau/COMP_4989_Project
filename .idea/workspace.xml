@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16d7938f-5f18-4a8c-a590-a94b872a2f5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ModelEvaluate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ModelPredict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTrain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/COMP_4989_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/COMP_4989_Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPredict.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPredict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTrain.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTrain.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +37,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Term 3/COMP-3800_Projects",
+    "last_opened_file_path": "C:/Users/Nolan/Documents/CST/Term 4/COMP 4989 - Selected Topics in AIML/COMP_4989_Project/ModelTrain.py",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -105,7 +107,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Term_4\COMP4989_selected_topics_in_ai\project\COMP_4989_Project\ModelTrain.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ModelTrain.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,11 +138,17 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.ModelEvaluate" />
+      <item itemvalue="Python.ModelPredict" />
+      <item itemvalue="Python.ModelTrain" />
+      <item itemvalue="Python.new" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.ModelPredict" />
-        <item itemvalue="Python.ModelEvaluate" />
         <item itemvalue="Python.ModelTrain" />
+        <item itemvalue="Python.ModelEvaluate" />
         <item itemvalue="Python.new" />
       </list>
     </recent_temporary>
@@ -154,6 +162,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669319820180</updated>
       <workItem from="1669319825120" duration="24208000" />
+      <workItem from="1669520608161" duration="2129000" />
     </task>
     <servers />
   </component>
@@ -161,9 +170,10 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/COMP_4989_Project$ModelEvaluate.coverage" NAME="ModelEvaluate Coverage Results" MODIFIED="1669391178122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/COMP_4989_Project$new.coverage" NAME="new Coverage Results" MODIFIED="1669342157244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/COMP_4989_Project$ModelEvaluate.coverage" NAME="ModelEvaluate Coverage Results" MODIFIED="1669391178122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/COMP_4989_Project$ModelPredict.coverage" NAME="ModelPredict Coverage Results" MODIFIED="1669523701424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/COMP_4989_Project$ModelTrain.coverage" NAME="ModelTrain Coverage Results" MODIFIED="1669521274772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/COMP_4989_Project$main.coverage" NAME="ModelTrain Coverage Results" MODIFIED="1669389596794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/COMP_4989_Project$ModelPredict.coverage" NAME="ModelPredict Coverage Results" MODIFIED="1669391521683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
