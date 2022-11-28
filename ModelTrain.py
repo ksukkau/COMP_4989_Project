@@ -27,8 +27,8 @@ earlystop = EarlyStopping(monitor='val_loss',
                           restore_best_weights=True)
 
 # creates tensorboard visualizations to view results
-# to view run in terminal: tensorboard --logdir=logs
-tbCallBack = TensorBoard(log_dir="logs",
+# to view run in terminal: tensorboard --logdir=sliding_logs
+tbCallBack = TensorBoard(log_dir="sliding_logs",
                          histogram_freq=0,
                          write_graph=True,
                          write_images=False)
@@ -58,7 +58,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     rotation_range=8,
     width_shift_range=.2,
     height_shift_range=.2)
-# Create video frame generator
+# Create video frame generator/sliding frame generator
 train = SlidingFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,

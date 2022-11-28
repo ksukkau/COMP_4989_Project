@@ -25,7 +25,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     height_shift_range=.2)
 # Create video frame generator
 test = VideoFrameGenerator(
-    classes=classes,
+    # classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,
     shuffle=True,
