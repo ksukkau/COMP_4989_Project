@@ -38,7 +38,9 @@ test = VideoFrameGenerator(
 # Showing a sample shows some of the generated frame it is not required
 # keras_video.utils.show_sample(train)
 
-model = keras.models.load_model('saved_models/convnet_sliding.h5')
+# printing the files sent in for comparison to output
+print(test.files)
+model = keras.models.load_model('saved_models/convnet_sliding1.h5')
 
 print("Evaluate on test data")
 results = model.evaluate(test)
@@ -48,9 +50,6 @@ print("Generate predictions")
 predictions = model.predict(test)
 # the prediction gives a row for each sample and the likely-hood of it being each of the 24 classes.
 print("predictions shape:", predictions.shape)
-
-print(predictions[1])
-print(predictions[2])
 
 # TODO display images to verify correctness?
 for prediction in predictions:

@@ -59,6 +59,7 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator/sliding frame generator
+# Frame cache should be set to false when using larger datasets due to memory limitations
 train = SlidingFrameGenerator(
     classes=classes,
     glob_pattern=glob_pattern,
@@ -69,7 +70,7 @@ train = SlidingFrameGenerator(
     target_shape=SIZE,
     nb_channel=CHANNELS,
     transformation=data_aug,
-    use_frame_cache=True)
+    use_frame_cache=False)
 
 valid = train.get_validation_generator()
 
@@ -166,4 +167,4 @@ history = model.fit(
 # prints metric values
 # print(history.history)
 
-model.save('saved_models/convnet_sliding.h5')
+model.save('saved_models/convnet_sliding1.h5')
