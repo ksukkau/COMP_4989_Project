@@ -17,6 +17,7 @@ from keras.layers import Conv2D, BatchNormalization, \
     MaxPool2D, GlobalMaxPool2D
 from keras.layers import TimeDistributed, GRU, Dense, Dropout
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
+import pickle
 
 # Stops model if there is no change to val_loss after 3 epochs, keeps the west weights
 # Seems to stop too early
@@ -168,3 +169,6 @@ history = model.fit(
 # print(history.history)
 
 model.save('saved_models/convnet_sliding1.h5')
+pickle_out = open("saved_models/model_pickle", "wb")
+pickle.dump(model, pickle_out)
+pickle_out.close()
