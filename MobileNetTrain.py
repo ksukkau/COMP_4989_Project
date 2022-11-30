@@ -45,7 +45,7 @@ modelCheckpoint = ModelCheckpoint(
 classes = [i.split(os.path.sep)[1] for i in glob.glob('videos/*')]
 classes.sort()
 # some global params
-SIZE = (112, 112)
+SIZE = (224, 224)
 CHANNELS = 3
 NBFRAME = 5
 BS = 8
@@ -77,51 +77,33 @@ valid = train.get_validation_generator()
 keras_video.utils.show_sample(train)
 
 
-# This model does feature detection and uses GlobalMaxPool2D which reduces
-# the number of outputs getting only maximum values from the last convolution
-# convnet == CNN
-def build_convnet(shape=(112, 112, 3)):
-    momentum = .9
-    model = keras.Sequential()
-    model.add(Conv2D(64, (3, 3), input_shape=shape,
-                     padding='same', activation='relu'))
-    model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
-    model.add(BatchNormalization(momentum=momentum))
-
-    model.add(MaxPool2D())
-
-    model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
-    model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
-    model.add(BatchNormalization(momentum=momentum))
-
-    model.add(MaxPool2D())
-
-    model.add(Conv2D(256, (3, 3), padding='same', activation='relu'))
-    model.add(Conv2D(256, (3, 3), padding='same', activation='relu'))
-    model.add(BatchNormalization(momentum=momentum))
-
-    model.add(MaxPool2D())
-
-    model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-    model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-    model.add(BatchNormalization(momentum=momentum))
-
-    # flatten...
-    model.add(GlobalMaxPool2D())
-    return model
+# Using transfer learning with pretrained model mobileNet, requires image size 224 x 224
+def build_mobilenet(shape=(224, 224, 3), nbout=3):
+    model = keras.applications.mobilenet.MobileNet(
+        include_top=False,
+        input_shape=shape,
+        weights='imagenet')
+    # Keep 9 layers to train﻿﻿
+    trainable = 9
+    for layer in model.layers[:-trainable]:
+        layer.trainable = False
+    for layer in model.layers[-trainable:]:
+        layer.trainable = True
+    output = GlobalMaxPool2D()
+    return keras.Sequential([model, output])
 
 
 # This is the time distributed model where we add the dimension of 5 frames,
 # the time distributed layer gets 5 images of size 112x112 with 3 channels (RGB)
 # action_model calls build_convnet and adds that to the time distributed model
-def action_model(shape=(5, 112, 112, 3), nbout=3):
+def action_model(shape=(5, 224, 224, 3), nbout=3):
     # Create our convnet with (112, 112, 3) input shape
-    convnet = build_convnet(shape[1:])
+    mobilenet = build_mobilenet(shape[1:])
 
     # then create our final model
     model = keras.Sequential()
     # add the convnet with (5, 112, 112, 3) shape
-    model.add(TimeDistributed(convnet, input_shape=shape))
+    model.add(TimeDistributed(mobilenet, input_shape=shape))
     # here, you can also use GRU or LSTM
     model.add(GRU(64))
     # and finally, we make a decision network
@@ -136,17 +118,17 @@ def action_model(shape=(5, 112, 112, 3), nbout=3):
     return model
 
 
-INSHAPE = (NBFRAME,) + SIZE + (CHANNELS,)  # (5, 112, 112, 3)
+INSHAPE = (NBFRAME,) + SIZE + (CHANNELS,)  # (5, 224, 224, 3)
 model = action_model(INSHAPE, len(classes))
-optimizer = keras.optimizers.Adam(0.001)
+optimizer = keras.optimizers.SGD()
 
 model.compile(
     optimizer,
-    'categorical_crossentropy',
+    "mean_squared_error",
     metrics=['acc']
 )
 
-EPOCHS = 50
+EPOCHS = 5
 
 callbacks = [
     # modelCheckpoint,
@@ -167,4 +149,4 @@ history = model.fit(
 # prints metric values
 # print(history.history)
 
-# model.save('saved_models/convnet_sliding1.h5')
+model.save('saved_models/mobilenet_sliding.h5')

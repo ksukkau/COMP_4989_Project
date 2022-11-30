@@ -40,7 +40,7 @@ test = VideoFrameGenerator(
 
 # printing the files sent in for comparison to output
 print(test.files)
-model = keras.models.load_model('saved_models/convnet_sliding1.h5')
+model = keras.models.load_model('saved_models/mobilenet_1.h5')
 
 print("Evaluate on test data")
 results = model.evaluate(test)
