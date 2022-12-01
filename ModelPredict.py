@@ -13,7 +13,7 @@ classes.sort()
 SIZE = (112, 112)
 CHANNELS = 3
 NBFRAME = 5
-BS = 8
+BS = 2
 # pattern to get videos and classes
 glob_pattern = 'videos/{classname}/*.mp4'
 # for data augmentation
@@ -24,8 +24,8 @@ data_aug = keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=.2,
     height_shift_range=.2)
 # Create video frame generator
-test = SlidingFrameGenerator(
-    classes=classes,
+test = VideoFrameGenerator(
+    # classes=classes,
     glob_pattern=glob_pattern,
     nb_frames=NBFRAME,
     shuffle=True,
@@ -38,7 +38,14 @@ test = SlidingFrameGenerator(
 # Showing a sample shows some of the generated frame it is not required
 # keras_video.utils.show_sample(train)
 
+<<<<<<< HEAD
 model = keras.models.load_model("saved_models/convnet_1.h5")
+=======
+# printing the files sent in for comparison to output
+print(test.files)
+model = keras.models.load_model('saved_models/mobilenet_sliding.h5')
+
+>>>>>>> main
 
 print("Evaluate on test data")
 results = model.evaluate(test)
@@ -48,9 +55,6 @@ print("Generate predictions")
 predictions = model.predict(test)
 # the prediction gives a row for each sample and the likely-hood of it being each of the 24 classes.
 print("predictions shape:", predictions.shape)
-
-print(predictions[1])
-print(predictions[2])
 
 # TODO display images to verify correctness?
 for prediction in predictions:
