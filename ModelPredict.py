@@ -13,7 +13,7 @@ classes.sort()
 SIZE = (112, 112)
 CHANNELS = 3
 NBFRAME = 5
-BS = 8
+BS = 2
 # pattern to get videos and classes
 glob_pattern = 'videos/{classname}/*.mp4'
 # for data augmentation
@@ -40,7 +40,8 @@ test = VideoFrameGenerator(
 
 # printing the files sent in for comparison to output
 print(test.files)
-model = keras.models.load_model('saved_models/mobilenet_1.h5')
+model = keras.models.load_model('saved_models/mobilenet_sliding.h5')
+
 
 print("Evaluate on test data")
 results = model.evaluate(test)

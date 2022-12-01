@@ -83,7 +83,7 @@ def build_mobilenet(shape=(224, 224, 3), nbout=3):
         include_top=False,
         input_shape=shape,
         weights='imagenet')
-    # Keep 9 layers to train﻿﻿
+    # Keep 9 layers to train
     trainable = 9
     for layer in model.layers[:-trainable]:
         layer.trainable = False
@@ -95,14 +95,14 @@ def build_mobilenet(shape=(224, 224, 3), nbout=3):
 
 # This is the time distributed model where we add the dimension of 5 frames,
 # the time distributed layer gets 5 images of size 112x112 with 3 channels (RGB)
-# action_model calls build_convnet and adds that to the time distributed model
-def action_model(shape=(5, 224, 224, 3), nbout=3):
-    # Create our convnet with (112, 112, 3) input shape
+# action_model calls build_mobilenet and adds that to the time distributed model
+def action_model(shape=(5, 112, 112, 3), nbout=3):
+    # Create our mobilenet with (112, 112, 3) input shape
     mobilenet = build_mobilenet(shape[1:])
 
     # then create our final model
     model = keras.Sequential()
-    # add the convnet with (5, 112, 112, 3) shape
+    # add the mobileNet with (5, 112, 112, 3) shape
     model.add(TimeDistributed(mobilenet, input_shape=shape))
     # here, you can also use GRU or LSTM
     model.add(GRU(64))
@@ -118,17 +118,17 @@ def action_model(shape=(5, 224, 224, 3), nbout=3):
     return model
 
 
-INSHAPE = (NBFRAME,) + SIZE + (CHANNELS,)  # (5, 224, 224, 3)
+INSHAPE = (None, 224, 224, 3)  # (5, 224, 224, 3)
 model = action_model(INSHAPE, len(classes))
 optimizer = keras.optimizers.SGD()
 
 model.compile(
     optimizer,
-    "mean_squared_error",
+    "categorical_crossentropy",
     metrics=['acc']
 )
 
-EPOCHS = 5
+EPOCHS = 50
 
 callbacks = [
     # modelCheckpoint,
@@ -138,7 +138,7 @@ callbacks = [
 ]
 
 # assigning to history saves a record of the values
-history = model.fit(
+history = model.fit_generator(
     train,
     validation_data=valid,
     verbose=1,
@@ -149,4 +149,4 @@ history = model.fit(
 # prints metric values
 # print(history.history)
 
-model.save('saved_models/mobilenet_sliding.h5')
+model.save('saved_models/mobilenet_sliding1.h5')
